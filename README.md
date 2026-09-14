@@ -1,3 +1,44 @@
+<div align="center">
+  <img src="docs/phil_robot.jpg" alt="Phil, the AI drummer robot" width="720" />
+  <h1>Phil · phil-control</h1>
+  <p><b>Real-time body controller for Phil, an AI drummer robot.</b><br/>
+  13 joints · TMotor / Maxon / Dynamixel · SocketCAN + CANopen · Jetson AGX Orin</p>
+  <p>
+    <img src="https://img.shields.io/badge/C++17-00599C?style=flat-square&logo=cplusplus&logoColor=white" />
+    <img src="https://img.shields.io/badge/Linux%20SCHED__FIFO-FCC624?style=flat-square&logo=linux&logoColor=black" />
+    <img src="https://img.shields.io/badge/SocketCAN-333333?style=flat-square" />
+    <img src="https://img.shields.io/badge/CANopen-005B94?style=flat-square" />
+    <img src="https://img.shields.io/badge/Dynamixel%20SDK-2E7D32?style=flat-square" />
+    <img src="https://img.shields.io/badge/NVIDIA%20Jetson-76B900?style=flat-square&logo=nvidia&logoColor=white" />
+  </p>
+</div>
+
+## At a glance
+
+Phil is a humanoid drum robot. A local LLM brain ([phil-interaction](https://github.com/badanory/phil-interaction)) decides **what** to do and sends short text commands over TCP. This controller decides **how**: it turns `LOOK / GESTURE / MOVE / POSE / HIT / PLAY` into synchronized joint trajectories and streams them to the motors at real-time priority.
+
+- **Command pipeline**: TCP → `CommandQueue` → `CommandParser` → `BehaviorPlanner` → `MotionPrimitive` sequence → `TrajectoryGenerator` → CAN / serial send loop.
+- **13 joints, 3 motor families**: 7 TMotor AK-series (waist, shoulders, elbows) over CAN; 4 Maxon DCX (wrists, pedals) over CANopen SDO/PDO in CSP/CST; 2 Dynamixel XM430 (head yaw/pitch) over Protocol 2.0.
+- **Score playback**: plain-text scores (`bpm` header, then per-hit timing, instrument and velocity for each hand and foot), inverse kinematics per hit, pause/resume from the interrupted bar, live speed scaling. An improv mode that cycles a genre folder without stopping lives on the `feat-improv` branch.
+- **Safety first**: locking-pin startup procedure (`Standby → Init → Idle`), pre-send jump and range checks, TMotor over-current cutoff, Maxon shutdown PDO on range violation, IK-failure isolation.
+- **Real-time**: `SCHED_FIFO` threads split into command, trajectory, send and receive loops.
+- **Simulation-ready**: the controller only ever sees SocketCAN interfaces and a serial port, so pointing it at `vcan*` and a PTY runs the same binary unchanged against [phil-simulation](https://github.com/badanory/phil-simulation) in PyBullet.
+
+```text
+voice ─▶ Whisper ─▶ Qwen3 planner ─▶ TCP ─▶ [ phil-control ] ─▶ CAN / serial ─▶ 13 motors
+      (phil-interaction)                                └──▶ vcan / PTY ─▶ PyBullet (phil-simulation)
+```
+
+| Repo | Role |
+|:--|:--|
+| **phil-control** (this repo) | C++17 real-time body controller |
+| [phil-interaction](https://github.com/badanory/phil-interaction) | Python brain: Whisper STT → LLM classifier / planner → validated commands → MeloTTS |
+| [phil-simulation](https://github.com/badanory/phil-simulation) | Frame-level PyBullet SIL fed by this controller's raw CAN frames and Dynamixel packets |
+
+> Developed at KIST. The detailed engineering documentation below is in Korean. / 아래부터는 상세 한국어 문서입니다.
+
+---
+
 # Phil
 
 > 개발 중인 드럼 연주 로봇 제어 시스템.
