@@ -35,6 +35,7 @@ voice ─▶ Whisper ─▶ Qwen3 planner ─▶ TCP ─▶ [ phil-control ] ─
 | [phil-interaction](https://github.com/badanory/phil-interaction) | Python brain: Whisper STT → LLM classifier / planner → validated commands → MeloTTS |
 | [phil-simulation](https://github.com/badanory/phil-simulation) | Frame-level PyBullet SIL fed by this controller's raw CAN frames and Dynamixel packets |
 | [phil-midi-converter](https://github.com/badanory/phil-midi-converter) | MIDI ↔ score converter: builds Phil's text scores from Groove MIDI Dataset drum tracks |
+| [phil-matlab-analysis](https://github.com/badanory/phil-matlab-analysis) | MATLAB log analysis: motor tracking plots, Simscape Multibody replay of logged motion, OBB/SAT collision check |
 
 > Developed at KIST. The detailed engineering documentation below is in Korean. / 아래부터는 상세 한국어 문서입니다.
 
