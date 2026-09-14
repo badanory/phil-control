@@ -1,5 +1,7 @@
 <div align="center">
-  <img src="docs/phil_robot.jpg" alt="Phil, the AI drummer robot" width="720" />
+  <a href="https://www.youtube.com/watch?v=e5yeaPhEgs8">
+    <img src="https://img.youtube.com/vi/e5yeaPhEgs8/maxresdefault.jpg" alt="Phil playing a drum solo (top view)" width="720" />
+  </a>
   <h1>Phil · phil-control</h1>
   <p><b>Real-time body controller for Phil, an AI drummer robot.</b><br/>
   13 joints · TMotor / Maxon / Dynamixel · SocketCAN + CANopen · Jetson AGX Orin</p>
@@ -10,6 +12,7 @@
     <img src="https://img.shields.io/badge/CANopen-005B94?style=flat-square" />
     <img src="https://img.shields.io/badge/Dynamixel%20SDK-2E7D32?style=flat-square" />
     <img src="https://img.shields.io/badge/NVIDIA%20Jetson-76B900?style=flat-square&logo=nvidia&logoColor=white" />
+    <a href="https://www.youtube.com/watch?v=e5yeaPhEgs8"><img src="https://img.shields.io/badge/▶%20Watch%20Phil%20play-YouTube-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="Watch Phil play on YouTube" /></a>
   </p>
 </div>
 
@@ -42,6 +45,8 @@ voice ─▶ Whisper ─▶ Qwen3 planner ─▶ TCP ─▶ [ phil-control ] ─
 ---
 
 # Phil
+
+<img src="docs/phil_robot.jpg" alt="Phil, the AI drummer robot" width="720" />
 
 > 개발 중인 드럼 연주 로봇 제어 시스템.
 
